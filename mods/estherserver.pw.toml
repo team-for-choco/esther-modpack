@@ -1,0 +1,8 @@
+name = "Esther Server"
+filename = "estherserver-1.0.0.jar"
+side = "both"
+
+[download]
+url = "https://github.com/team-for-choco/esther-server/releases/download/v1.0.0/estherserver-1.0.0.jar"
+hash-format = "sha256"
+hash = ""

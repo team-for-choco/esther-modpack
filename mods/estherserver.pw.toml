@@ -5,4 +5,4 @@ side = "both"
 [download]
 url = "https://github.com/team-for-choco/esther-server/releases/download/v1.0.0/estherserver-1.0.0.jar"
 hash-format = "sha256"
-hash = "fce5a2c66a1573c73600c33b8c3a36bcc26f27ee912f99138251327f70ffe9c8"
+hash = "e4e48eebd039414125538fe65e93801117a8dace7d7e1f2cf7438799382e3541"

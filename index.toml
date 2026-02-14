@@ -1,14 +1,6 @@
 hash-format = "sha256"
 
 [[files]]
-file = ".github/workflows/update-and-deploy.yml"
-hash = "a473b782b8ffc88f0f01dd0cdb2aed0774769d263349e28ab8bb7c46e9079dec"
-
-[[files]]
-file = "docs/PLAYER_SETUP.md"
-hash = "50b8f384f7c98135f736d4482e388974b0a52fbb1136fc56904423448c6de18b"
-
-[[files]]
 file = "mods/estherserver.pw.toml"
 hash = "0e89b4180105ac82c4ff675de4375525f8e5da1e06c1cb7aaf8db53501d9a44c"
 metafile = true

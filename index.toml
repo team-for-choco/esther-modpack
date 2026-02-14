@@ -1,11 +1,19 @@
 hash-format = "sha256"
 
 [[files]]
+file = ".github/workflows/update-and-deploy.yml"
+hash = "a473b782b8ffc88f0f01dd0cdb2aed0774769d263349e28ab8bb7c46e9079dec"
+
+[[files]]
+file = "docs/PLAYER_SETUP.md"
+hash = "50b8f384f7c98135f736d4482e388974b0a52fbb1136fc56904423448c6de18b"
+
+[[files]]
 file = "mods/estherserver.pw.toml"
-hash = ""
+hash = "48d00e4fd266df073b44fcab09084afd668ef9ab23fe5b8516e37eeddcd4be1d"
 metafile = true
 
 [[files]]
 file = "mods/kotlin-for-forge.pw.toml"
-hash = ""
+hash = "0033c5a00c46d5d7b6cf77b19fa76ce5c78a613f3128dcadb3588fa5841ae489"
 metafile = true

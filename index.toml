@@ -10,7 +10,7 @@ hash = "50b8f384f7c98135f736d4482e388974b0a52fbb1136fc56904423448c6de18b"
 
 [[files]]
 file = "mods/estherserver.pw.toml"
-hash = "48d00e4fd266df073b44fcab09084afd668ef9ab23fe5b8516e37eeddcd4be1d"
+hash = "0e89b4180105ac82c4ff675de4375525f8e5da1e06c1cb7aaf8db53501d9a44c"
 metafile = true
 
 [[files]]

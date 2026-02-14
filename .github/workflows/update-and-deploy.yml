@@ -1,0 +1,113 @@
+name: Update Modpack & Deploy
+
+on:
+  repository_dispatch:
+    types: [mod-updated]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Mod version (e.g. 1.0.0)'
+        required: false
+      jar_name:
+        description: 'JAR filename'
+        required: false
+      download_url:
+        description: 'JAR download URL'
+        required: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Install packwiz
+        run: go install github.com/packwiz/packwiz@latest
+
+      - name: Resolve payload
+        id: payload
+        run: |
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
+            echo "jar_name=${{ github.event.client_payload.jar_name }}" >> "$GITHUB_OUTPUT"
+            echo "download_url=${{ github.event.client_payload.download_url }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "jar_name=${{ github.event.inputs.jar_name }}" >> "$GITHUB_OUTPUT"
+            echo "download_url=${{ github.event.inputs.download_url }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update estherserver mod
+        if: steps.payload.outputs.download_url != ''
+        run: |
+          VERSION="${{ steps.payload.outputs.version }}"
+          JAR_NAME="${{ steps.payload.outputs.jar_name }}"
+          DOWNLOAD_URL="${{ steps.payload.outputs.download_url }}"
+
+          # Download JAR to compute hash
+          curl -sL -o "/tmp/$JAR_NAME" "$DOWNLOAD_URL"
+          SHA256=$(sha256sum "/tmp/$JAR_NAME" | cut -d' ' -f1)
+
+          # Update estherserver.pw.toml
+          cat > mods/estherserver.pw.toml << EOF
+          name = "Esther Server"
+          filename = "$JAR_NAME"
+          side = "both"
+
+          [download]
+          url = "$DOWNLOAD_URL"
+          hash-format = "sha256"
+          hash = "$SHA256"
+          EOF
+          # Remove leading whitespace from heredoc
+          sed -i 's/^          //' mods/estherserver.pw.toml
+
+      - name: Refresh pack index
+        run: packwiz refresh
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            VERSION="${{ steps.payload.outputs.version }}"
+            git commit -m "update: estherserver v${VERSION:-manual}"
+            git push
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: update-pack
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

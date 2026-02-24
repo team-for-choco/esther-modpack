@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "mods/estherserver.pw.toml"
-hash = "e4891503fc556e4c48dded661075532710add7910f6254aaad437e0d68c0ccf3"
+hash = "b067154b3c87a362eeaba47b86456f1033e0e0b975de65128ec9c5f6826bfbf3"
 metafile = true
 
 [[files]]

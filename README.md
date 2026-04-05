@@ -1,3 +1,6 @@
+
+<img width="759" height="561" alt="image" src="https://github.com/user-attachments/assets/49d6d426-3fb9-406c-9253-d39cf0d019ee" />
+
 # Esther Server 유저 가이드
 
 > 마인크래프트 바닐라는 해봤는데 이 서버 처음이라면 여기서 시작하세요.
